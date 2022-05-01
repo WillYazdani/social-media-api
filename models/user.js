@@ -30,7 +30,7 @@ const UserSchema = new Schema({
         timestamps: true
 });
 
-UserSchema.virtual('friends').get(function() {
+UserSchema.virtual('friendCount').get(function() {
     return this.friends.length;
 });
 
