@@ -13,7 +13,7 @@ const ThoughtSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: dateFormat
+        get: createdAtVal => dateFormat(createdAtVal)
     },
     username: {
         type: String,
@@ -29,3 +29,46 @@ const ThoughtSchema = new Schema({
     id: false,
     timestamps: true
 });
+
+//add reaction schema
+const reactionSchema = new Schema({
+    reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId(),
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        validate: {
+            validator: "isLength",
+            message: "Reaction must be between 1 and 280 characters long",
+            arguments: [1, 280]
+        },
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: createdAtVal => dateFormat(createdAtVal)
+    },
+        toJSON : {
+            virtuals: true,
+            getters: true
+        },
+        id: false,
+        timestamps: true
+});
+
+//ThoughtSchema virtual
+ThoughtSchema.virtial('reactionCount').get(function() {
+    return this.reactions.length;
+});
+
+//Thought model
+const Thought = model('Thought', ThoughtSchema);
+
+//export
+module.exports = Thought;
