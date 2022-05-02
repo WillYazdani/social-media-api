@@ -1,5 +1,5 @@
 const {Schema, model, Types} = require('mongoose');
-const dateFormat = require('../utils/date-format');
+const dateFormat = require('../utils/dateFormat');
 
 const UserSchema = new Schema({
     userName: {
@@ -21,9 +21,7 @@ const UserSchema = new Schema({
     friends: [this]
     },
     {
-    
         toJSON : {
-            virtuals: true,
             getters: true
         },
         id: false,

@@ -9,7 +9,7 @@ const {
     deleteThought,
     createReaction,
     deleteReaction
-} = require('../controllers/thought-controller');
+} = require('../../controllers/thought-controller');
 
 //get all and post
 router
