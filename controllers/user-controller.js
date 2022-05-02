@@ -1,9 +1,9 @@
-const {User, Thought} = require('../models');
+const {User} = require('../models');
 
 const userController = {
     //get all users
     getAllUsers(req, res) {
-       user.find({})
+        User.find({})
        .populate({
               path: 'thoughts',
               select: '-__v'
@@ -17,8 +17,8 @@ const userController = {
             });
     },
     //get one user
-    getOneUser(req, res) {
-        user.findOne({_id: req.params.id})
+    getOneUser({params}, res) {
+        User.findOne({_id: params.id})
         .populate({
                path: 'thoughts',
                select: '-__v'
@@ -37,12 +37,8 @@ const userController = {
           });
     },
     //create a user
-    createUser(req, res) {
-        user.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
-        })
+    createUser({body}, res) {
+        User.create(body)
         .then(dbUserData => res.json(dbUserData))
         .catch(err => {
             console.log(err);
@@ -50,8 +46,8 @@ const userController = {
         });
     },
     //update a user
-    updateUser(req, res) {
-        user.findOneAndUpdate({_id: req.params.id}, {new: true, runValidators: true})
+    updateUser({params, body}, res) {
+        User.findOneAndUpdate({_id: params.id}, body, {new: true, runValidators: true})
         .then(dbUserData => {
             if(!dbUserData) {
                 res.status(404).json({message: 'No user found with this id'});
@@ -65,8 +61,8 @@ const userController = {
         });
     },
     //delte a user
-    deleteUser(req, res) {
-        user.findOneAndDelete({_id: req.params.id})
+    deleteUser({params}, res) {
+        User.findOneAndDelete({_id: params.id})
         .then(dbUserData => {
             if(!dbUserData) {
                 res.status(404).json({message: 'No user found with this id'});
